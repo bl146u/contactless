@@ -15,5 +15,4 @@ from apps.ws.middleware import websockets
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
-application = get_asgi_application()
-application = websockets(application)
+application = websockets(get_asgi_application())
