@@ -3,26 +3,36 @@
 
 (($) => {
 
+
+    let add_log = (message, is_error) => {
+        let item = $(`<div class="item">${message}</div>`);
+        if (typeof is_error === "boolean") item.addClass(is_error ? "error" : "success");
+        $("#logs").prepend(item);
+    }
+
+
     $(() => {
 
-        let socket = new WebSocket("ws://localhost:8099/ws/");
+        $("form").bind("submit", (event) => {
+            event.preventDefault();
+            let form = $(event.currentTarget).serializeArray(),
+                data = {};
+            form.forEach((item) => {
+                data[item.name] = item.value;
+            });
+            $(event.currentTarget).find("input[type=text]").val("");
+            socket.send(JSON.stringify(data));
+        });
 
-        socket.onopen = (event) => {
-            socket.send("Привет");
-            console.info("WS connected:", event.type)
+        let socket = new WebSocket("ws://localhost:8099/");
+
+        socket.onmessage = function(event) {
+            let data = JSON.parse(event.data);
+            add_log(data.message);
         };
-        socket.onclose = (event) => {
-            if (event.wasClean) {
-                console.info("WS closed clear:", event.type);
-            } else {
-                console.info("WS lost connection:", event.type);
-            }
-        };
-        socket.onmessage = (event) => {
-            console.info("WS data received:", event.data);
-        };
-        socket.onerror = (error) => {
-            console.info("WS error:", error.message);
+
+        socket.onclose = function(e) {
+            add_log("Chat socket closed unexpectedly", true);
         };
 
     })

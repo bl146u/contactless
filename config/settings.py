@@ -45,6 +45,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 EXTERNAL_APPS = [
+    "channels",
     "rest_framework",
 ]
 INTERNAL_APPS = [
@@ -98,6 +99,9 @@ DATABASES = {
         "HOST": env.str("POSTGRES_HOST", default="localhost"),
         "PORT": env.int("POSTGRES_PORT", default=5432),
         "ATOMIC_REQUESTS": True,
+        "TEST": {
+            "NAME": f'{env.str("POSTGRES_NAME")}_test',
+        },
     }
 }
 
@@ -141,3 +145,12 @@ STATICFILES_DIRS = [Path(BASE_DIR, "assets")]
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# Channels
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
+}

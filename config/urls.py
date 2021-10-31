@@ -22,7 +22,6 @@ from django.contrib import admin
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("ws/", include("apps.ws.urls", namespace="ws")),
     path("api/v1/", include("apps.api.urls", namespace="api_v1")),
     path("", include("apps.base.urls", namespace="base")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
