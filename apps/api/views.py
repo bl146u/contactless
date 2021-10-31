@@ -1,7 +1,3 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
+from django.shortcuts import render
 
-
-class ConfigAPIView(APIView):
-    def get(self, request, **kwargs):
-        return Response({})
+# Create your views here.

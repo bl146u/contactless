@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+
+{% load static %}
+
+
+<html lang="ru">
+
+
+<head>
+
+    <title>WS Test</title>
+
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon" />
+
+    <link type="text/css" rel="stylesheet" href="{% static 'css/layout.css' %}" />
+
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/base.js' %}"></script>
+
+</head>
+
+
+<body>
+
+    {% block 'content' %}sss{% endblock 'content' %}
+
+</body>
+
+
+</html>
