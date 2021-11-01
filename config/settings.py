@@ -99,9 +99,6 @@ DATABASES = {
         "HOST": env.str("POSTGRES_HOST", default="localhost"),
         "PORT": env.int("POSTGRES_PORT", default=5432),
         "ATOMIC_REQUESTS": True,
-        "TEST": {
-            "NAME": f'{env.str("POSTGRES_NAME")}_test',
-        },
     }
 }
 

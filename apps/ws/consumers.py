@@ -21,8 +21,6 @@ class MainConsumer(AsyncWebsocketConsumer):
         )
 
     async def receive(self, text_data=None, bytes_data=None):
-        print(text_data)
-        print(bytes_data)
         text_data_json = json.loads(text_data)
         name = text_data_json.get("name")
         message = text_data_json.get("message")

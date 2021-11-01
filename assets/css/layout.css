@@ -84,6 +84,16 @@ input[type=submit] {
 input.error {
     border-color:#f00;
 }
+form > b {
+    display:block;
+    line-height:30px;
+    padding:0 10px;
+    color:#fff;
+    font-size:.75rem;
+    background:#000;
+    border-radius:3px 0 0 3px;
+    user-select:none;
+}
 #logs {
     margin:10px 0 0 0;
 }
