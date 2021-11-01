@@ -44,9 +44,21 @@ form {
     -ms-flex-align:start;
     align-items:flex-start;
 }
+input {
+    outline:none;
+}
 input[type=text] {
     height:30px;
     padding:0 10px;
+    border:1px solid #000;
+    border-right:0;
+    border-radius:4px 0 0 4px;
+}
+input[name=name] {
+    width:120px;
+}
+input[name=message] {
+    border-radius:0;
     -webkit-box-ordinal-group:1;
     -moz-box-ordinal-group:1;
     -webkit-order:0;
@@ -61,11 +73,16 @@ input[type=text] {
     -ms-flex-item-align:auto;
     align-self:auto;
 }
-input[type=button] {
+input[type=submit] {
     width:100px;
     height:30px;
     text-transform:uppercase;
     cursor:pointer;
+    border:1px solid #000;
+    border-radius:0 3px 3px 0;
+}
+input.error {
+    border-color:#f00;
 }
 #logs {
     margin:10px 0 0 0;
