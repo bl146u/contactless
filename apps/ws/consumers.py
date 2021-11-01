@@ -21,26 +21,32 @@ class MainConsumer(AsyncWebsocketConsumer):
         )
 
     async def receive(self, text_data=None, bytes_data=None):
+        print(text_data)
+        print(bytes_data)
         text_data_json = json.loads(text_data)
-        message = text_data_json.get("message")
         name = text_data_json.get("name")
+        message = text_data_json.get("message")
+        file = text_data_json.get("file")
         await self.channel_layer.group_send(
             self.group_name,
             {
                 "type": "chat_message",
                 "name": name,
                 "message": message,
+                "file": file,
             },
         )
 
     async def chat_message(self, event):
-        message = event.get("message")
         name = event.get("name")
+        message = event.get("message")
+        file = event.get("file")
         await self.send(
             text_data=json.dumps(
                 {
                     "name": name,
                     "message": message,
+                    "file": file,
                 }
             )
         )

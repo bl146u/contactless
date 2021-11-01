@@ -1,6 +1,6 @@
 {% extends './base.html' %}
 
 {% block 'content' %}
-<form><input autocomplete="off" type="text" id="name" name="name" placeholder="Введите имя" /><input autocomplete="off" type="text" id="message" name="message" placeholder="Введите сообщение" autofocus="autofocus" /><input type="submit" value="Отправить" /></form>
+<form><input autocomplete="off" type="text" id="name" name="name" placeholder="Введите имя" /><input autocomplete="off" type="text" id="message" name="message" placeholder="Введите сообщение" autofocus="autofocus" /><input type="submit" value="Отправить" /><input autocomplete="off" type="file" id="file" name="file" placeholder="Выберите файл" /></form>
 <div id="logs"></div>
 {% endblock 'content' %}
