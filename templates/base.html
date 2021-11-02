@@ -14,10 +14,12 @@
     <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon" />
 
     <link type="text/css" rel="stylesheet" href="{% static 'css/fonts.css' %}" />
+    <link type="text/css" rel="stylesheet" href="{% static 'css/reset.css' %}" />
     <link type="text/css" rel="stylesheet" href="{% static 'css/layout.css' %}" />
 
     <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/config.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/sign-in.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/base.js' %}"></script>
 
 </head>
@@ -25,7 +27,21 @@
 
 <body>
 
-    {% block 'content' %}sss{% endblock 'content' %}
+    <header>
+        {% if request.user.is_authenticated %}
+            <div class="profile">{{ request.user.first_name }} {{ request.user.last_name }}</div>
+        {% else %}
+            <div class="auth">
+                <form>
+                    <input type="text" name="username" placeholder="Login" /><input type="password" name="password" placeholder="Password" /><input type="submit" value="Sign in" />
+                </form>
+            </div>
+        {% endif %}
+    </header>
+
+    <main>
+        {% block 'content' %}{% endblock 'content' %}
+    </main>
 
 </body>
 

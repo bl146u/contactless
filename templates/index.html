@@ -1,5 +1,6 @@
 {% extends './base.html' %}
 
 {% block 'content' %}
-<form>{% if request.user.is_authenticated %}<b>{{ request.user.first_name }} {{ request.user.last_name }}</b>{% endif %}<input autocomplete="off" type="{% if request.user.is_authenticated %}hidden{% else %}text{% endif %}" id="name" name="name" value="{% if request.user.is_authenticated %}{{ request.user.first_name }} {{ request.user.last_name }}{% endif %}" placeholder="Введите имя" /><input autocomplete="off" type="text" id="message" name="message" placeholder="Введите сообщение" autofocus="autofocus" /><input type="submit" value="Отправить" /><input autocomplete="off" type="file" id="file" name="file" placeholder="Выберите файл" /></form><div id="logs"></div>
+<h1>Чат</h1>
+<form class="chat"><input autocomplete="off" type="text" id="message" name="message" placeholder="Введите сообщение" autofocus="autofocus" /><input type="submit" value="Отправить" /></form><div id="logs"><div class="item empty">No message</div></div>
 {% endblock 'content' %}
