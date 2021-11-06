@@ -4,7 +4,7 @@ import random
 
 from channels.db import database_sync_to_async
 from django.utils.crypto import constant_time_compare
-from django.contrib.auth.signals import user_logged_in
+from django.contrib.auth.signals import user_logged_in, user_logged_out
 from django.contrib.auth import (
     _get_backends,
     authenticate,
@@ -57,10 +57,11 @@ class SignInConsumer(ConsumerMixin):
         session[SESSION_KEY] = user._meta.pk.value_to_string(user)
         session[BACKEND_SESSION_KEY] = backend
         session[HASH_SESSION_KEY] = session_auth_hash
-        # user_logged_in.send(sender=user.__class__, request=request, user=user)
+        session.save()
+        user_logged_in.send(sender=user.__class__, user=user)
 
     @database_sync_to_async
-    def authenticate(self, session, username: str, password: str):
+    def signin(self, session, username: str, password: str):
         from django.contrib.auth.models import AnonymousUser
 
         user = authenticate(username=username, password=password)
@@ -76,18 +77,55 @@ class SignInConsumer(ConsumerMixin):
         await self.accept()
 
     async def receive_json(self, content, **kwargs):
-        user = await self.authenticate(
-            session=self.scope.get("session"),
+        session = self.scope.get("session")
+        user = await self.signin(
+            session=session,
             username=content.get("username"),
             password=content.get("password"),
         )
-        print(user)
-
-        await self.send(text_data=json.dumps(content))
+        self.scope["session"] = session
+        await self.send(
+            text_data=json.dumps(
+                {
+                    "sessionid": session.session_key,
+                    "expires": session.get_session_cookie_age(),
+                }
+            )
+        )
         await self.close()
 
 
-class MainConsumer(ConsumerMixin):
+class SignOutConsumer(ConsumerMixin):
+    _channel: str = "sign-out"
+
+    def logout(self, session, user):
+        if not user.is_authenticated:
+            return
+        user_logged_out.send(sender=user.__class__, user=user)
+        session.flush()
+        session.save()
+
+    @database_sync_to_async
+    def signout(self, session):
+        from django.contrib.auth.models import AnonymousUser
+
+        self.logout(session, self.scope.get("user"))
+        return AnonymousUser()
+
+    async def connect(self):
+        self._group = "".join(random.sample(string.ascii_lowercase, 16))
+        await self.channel_layer.group_add(self._group, self._channel)
+        await self.accept()
+
+    async def receive_json(self, content, **kwargs):
+        session = self.scope.get("session")
+        self.scope["user"] = await self.signout(session)
+        self.scope["session"] = session
+        await self.send(text_data=json.dumps({}))
+        await self.close()
+
+
+class SendConsumer(ConsumerMixin):
     group_name: str = "tmp"
     channel_name: str = "tmp"
 
@@ -106,29 +144,25 @@ class MainConsumer(ConsumerMixin):
 
     async def receive(self, text_data=None, bytes_data=None, **kwargs):
         text_data_json = json.loads(text_data)
-        name = text_data_json.get("name")
         message = text_data_json.get("message")
-        file = text_data_json.get("file")
+        user = self.scope.get("user")
         await self.channel_layer.group_send(
             self.group_name,
             {
                 "type": "chat_message",
-                "name": name,
+                "name": f"{user.first_name} {user.last_name}",
                 "message": message,
-                "file": file,
             },
         )
 
     async def chat_message(self, event):
         name = event.get("name")
         message = event.get("message")
-        file = event.get("file")
         await self.send(
             text_data=json.dumps(
                 {
                     "name": name,
                     "message": message,
-                    "file": file,
                 }
             )
         )

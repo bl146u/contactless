@@ -30,13 +30,23 @@
                 field_password.removeClass("error");
             }
             if (!is_error) {
-                let socket = new WebSocket(`${$.WS.host}sign-in/`);
-                socket.onopen = (event) => {
-                    socket.send(JSON.stringify(data));
-                };
-                socket.onmessage = (event) => {
+                let signin = new WebSocket(`${$.WS.host}sign-in/`);
+                signin.onmessage = (event) => {
                     let data = JSON.parse(event.data);
-                    console.info(data);
+                    if (data["sessionid"]) {
+                        $.cookie(
+                            "sessionid",
+                            data["sessionid"],
+                            {
+                                "path": "/",
+                                "expires": data["expires"] / 86400
+                            }
+                        );
+                        window.location.reload();
+                    }
+                };
+                signin.onopen = (event) => {
+                    signin.send(JSON.stringify(data));
                 };
             }
         });

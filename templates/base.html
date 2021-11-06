@@ -18,9 +18,13 @@
     <link type="text/css" rel="stylesheet" href="{% static 'css/layout.css' %}" />
 
     <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.cookie.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/config.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/sign-in.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/base.js' %}"></script>
+    {% if request.user.is_authenticated %}
+        <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
+    {% else %}
+        <script type="text/javascript" src="{% static 'js/sign-in.js' %}"></script>
+    {% endif %}
 
 </head>
 
@@ -29,11 +33,11 @@
 
     <header>
         {% if request.user.is_authenticated %}
-            <div class="profile">{{ request.user.first_name }} {{ request.user.last_name }}</div>
+            <form class="profile"><input type="submit" value="Sign out" /> {{ request.user.first_name }} {{ request.user.last_name }}</form>
         {% else %}
             <div class="auth">
                 <form>
-                    <input type="text" name="username" placeholder="Login" /><input type="password" name="password" placeholder="Password" /><input type="submit" value="Sign in" />
+                    <input type="text" name="username" placeholder="Login" autofocus="autofocus" /><input type="password" name="password" placeholder="Password" /><input type="submit" value="Sign in" />
                 </form>
             </div>
         {% endif %}
