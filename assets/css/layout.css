@@ -190,6 +190,9 @@ h1 {
     width:100%;
 }
 
+#files {
+    width:400px;
+}
 #files > .item {
     border:1px solid #eee;
     border-radius:2px;
@@ -232,6 +235,11 @@ h1 {
 }
 #files > .item > .info > * {
     padding:0 5px;
+    white-space:nowrap;
+    overflow:hidden;
+}
+#files > .item > .info > * > span {
+    display:block;
 }
 #files > .item > .info > .name {
     -webkit-box-ordinal-group:1;
@@ -247,6 +255,10 @@ h1 {
     -webkit-align-self:auto;
     -ms-flex-item-align:auto;
     align-self:auto;
+}
+#files > .item > .info > .name > span {
+    white-space:nowrap;
+    overflow:hidden;
 }
 #files > .item > .info > .user {
     border-right:1px solid #eee;
