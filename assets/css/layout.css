@@ -10,12 +10,17 @@ input[type=text],
 input[type=password],
 input[type=number],
 input[type=email],
-input[type=tel] {
+input[type=tel],
+input[type=file] {
     height:30px;
     padding:0 10px;
     font-size:.875rem;
     border:1px solid #000;
     border-radius:4px;
+}
+input[type=file] {
+    padding:0;
+    cursor:pointer;
 }
 input[type=submit],
 input[type=button] {
@@ -33,7 +38,8 @@ input.error[type=text],
 input.error[type=password],
 input.error[type=number],
 input.error[type=email],
-input.error[type=tel] {
+input.error[type=tel],
+input.error[type=file] {
     border-color:#f00;
 }
 form.chat {
@@ -81,16 +87,16 @@ form.chat > input[name=message] {
     -ms-flex-item-align:auto;
     align-self:auto;
 }
-#logs {
+.logs {
     margin:10px 0 0 0;
     padding:10px;
     border:1px solid #ddd;
     border-radius:4px;
 }
-#logs > .item {
+.logs > .item {
     font-size:.75rem;
 }
-#logs > .item > b {
+.logs > .item > b {
     display:inline-block;
     padding:0 5px;
     color:#fff;
@@ -98,16 +104,16 @@ form.chat > input[name=message] {
     user-select:none;
     border-radius:4px;
 }
-#logs > .item:not(:last-child) {
+.logs > .item:not(:last-child) {
     margin-bottom:5px;
 }
-#logs > .item.success {
+.logs > .item.success {
     color:#00f;
 }
-#logs > .item.error {
+.logs > .item.error {
     color:#f00;
 }
-#logs > .item.empty {
+.logs > .item.empty {
     color:#999;
 }
 
@@ -126,4 +132,137 @@ main {
 
 h1 {
     margin:0 0 20px 0;
+}
+
+.chat-wrapper {
+    display:-webkit-box;
+    display:-moz-box;
+    display:-ms-flexbox;
+    display:-webkit-flex;
+    display:flex;
+    -webkit-box-direction:normal;
+    -moz-box-direction:normal;
+    -webkit-box-orient:horizontal;
+    -moz-box-orient:horizontal;
+    -webkit-flex-direction:row;
+    -ms-flex-direction:row;
+    flex-direction:row;
+    -webkit-flex-wrap:nowrap;
+    -ms-flex-wrap:nowrap;
+    flex-wrap:nowrap;
+    -webkit-box-pack:start;
+    -moz-box-pack:start;
+    -webkit-justify-content:flex-start;
+    -ms-flex-pack:start;
+    justify-content:flex-start;
+    -webkit-align-content:flex-start;
+    -ms-flex-line-pack:start;
+    align-content:flex-start;
+    -webkit-box-align:start;
+    -moz-box-align:start;
+    -webkit-align-items:flex-start;
+    -ms-flex-align:start;
+    align-items:flex-start;
+}
+.chat-wrapper > :first-child {
+    -webkit-box-ordinal-group:1;
+    -moz-box-ordinal-group:1;
+    -webkit-order:0;
+    -ms-flex-order:0;
+    order:0;
+    -webkit-box-flex:1;
+    -moz-box-flex:1;
+    -webkit-flex:1 1 auto;
+    -ms-flex:1 1 auto;
+    flex:1 1 auto;
+    -webkit-align-self:auto;
+    -ms-flex-item-align:auto;
+    align-self:auto;
+}
+.chat-wrapper > :not(:first-child) {
+    padding-left:20px;
+}
+
+.upload {
+    width:400px;
+}
+.upload > input[name=file] {
+    width:100%;
+}
+
+#files > .item {
+    border:1px solid #eee;
+    border-radius:2px;
+    overflow:hidden;
+}
+#files > .item.empty {
+    border:0;
+}
+#files > .item > .info {
+    line-height:20px;
+    border-bottom:1px solid #eee;
+    display:-webkit-box;
+    display:-moz-box;
+    display:-ms-flexbox;
+    display:-webkit-flex;
+    display:flex;
+    -webkit-box-direction:normal;
+    -moz-box-direction:normal;
+    -webkit-box-orient:horizontal;
+    -moz-box-orient:horizontal;
+    -webkit-flex-direction:row;
+    -ms-flex-direction:row;
+    flex-direction:row;
+    -webkit-flex-wrap:nowrap;
+    -ms-flex-wrap:nowrap;
+    flex-wrap:nowrap;
+    -webkit-box-pack:start;
+    -moz-box-pack:start;
+    -webkit-justify-content:flex-start;
+    -ms-flex-pack:start;
+    justify-content:flex-start;
+    -webkit-align-content:flex-start;
+    -ms-flex-line-pack:start;
+    align-content:flex-start;
+    -webkit-box-align:start;
+    -moz-box-align:start;
+    -webkit-align-items:flex-start;
+    -ms-flex-align:start;
+    align-items:flex-start;
+}
+#files > .item > .info > * {
+    padding:0 5px;
+}
+#files > .item > .info > .name {
+    -webkit-box-ordinal-group:1;
+    -moz-box-ordinal-group:1;
+    -webkit-order:0;
+    -ms-flex-order:0;
+    order:0;
+    -webkit-box-flex:1;
+    -moz-box-flex:1;
+    -webkit-flex:1 1 auto;
+    -ms-flex:1 1 auto;
+    flex:1 1 auto;
+    -webkit-align-self:auto;
+    -ms-flex-item-align:auto;
+    align-self:auto;
+}
+#files > .item > .info > .user {
+    border-right:1px solid #eee;
+    background:#eee;
+}
+#files > .item > .info > .size {
+    border-left:1px solid #eee;
+    background:#eee;
+}
+#files > .item > .progress {
+    border-radius:0 0 2px 2px;
+    overflow:hidden;
+}
+#files > .item > .progress > span {
+    display:block;
+    width:0;
+    height:5px;
+    background:#0f0;
 }

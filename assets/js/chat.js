@@ -14,7 +14,8 @@
 
     $(() => {
 
-        let field_message = $("input[name=message]");
+        let field_message = $("input[name=message]"),
+            field_file = $("input[name=file]");
 
         let chat = new WebSocket(`${$.WS.host}send/`);
         chat.onmessage = (event) => {
@@ -55,6 +56,34 @@
             signout.onopen = (event) => {
                 signout.send(JSON.stringify({}))
             }
+        });
+
+        let uploader = new $.Uploader((data) => {
+            let files_block = $("#files"),
+                file_block = $(`#${data.id}`);
+            files_block.children(".item.empty").remove();
+            if (!file_block.length) {
+                file_block = $(`<div id="${data.id}" class="item">
+                    <div class="info"><div class="user"><span></span></div><div class="name"><span></span></div><div class="size"><span></span></div></div>
+                    <div class="progress"><span></span></div>
+                </div>`);
+                files_block.append(file_block);
+            }
+            file_block.find(".info > .user > span").text(data.user);
+            file_block.find(".info > .name > span").text(data.name);
+            file_block.find(".info > .size > span").text(`${data.size} / ${data.total}`);
+            file_block.find(".progress > span").width(`${data.size / data.total * 100}%`);
+        });
+
+        $("form.upload").bind("submit", (event) => {
+            event.preventDefault();
+            $(field_file[0].files).each((index, file) => {
+                uploader.send(file);
+            });
+        });
+        field_file.bind("change", (event) => {
+            event.preventDefault();
+            $("form.upload").submit();
         });
 
     })

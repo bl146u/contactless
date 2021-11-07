@@ -20,6 +20,7 @@
     <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery.cookie.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/config.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/uploader.js' %}"></script>
     {% if request.user.is_authenticated %}
         <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
     {% else %}
@@ -33,11 +34,11 @@
 
     <header>
         {% if request.user.is_authenticated %}
-            <form class="profile"><input type="submit" value="Sign out" /> {{ request.user.first_name }} {{ request.user.last_name }}</form>
+            <form class="profile"><input type="submit" value="Sign out" /> {{ request.user.username }}</form>
         {% else %}
             <div class="auth">
                 <form>
-                    <input type="text" name="username" placeholder="Login" autofocus="autofocus" /><input type="password" name="password" placeholder="Password" /><input type="submit" value="Sign in" />
+                    <input type="text" name="username" placeholder="Login" autofocus="autofocus" /><input type="password" name="password" placeholder="Password" /><input type="submit" value="Sign in" /> <a href="{% url 'base:sign-up' %}">sign up</a>
                 </form>
             </div>
         {% endif %}

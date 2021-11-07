@@ -1,0 +1,13 @@
+{% extends './base.html' %}
+
+{% block 'content' %}
+<h1>Чат</h1>
+<div class="chat-wrapper">
+    <div>
+        <form class="chat"><input autocomplete="off" type="text" id="message" name="message" placeholder="Введите сообщение" autofocus="autofocus" /><input type="submit" value="Отправить" /></form><div id="logs" class="logs"><div class="item empty">No message</div></div>
+    </div>
+    <div>
+        <form class="upload"><input type="file" name="file" multiple="multiple" /></form><div id="files" class="logs"><div class="item empty">No files</div></div>
+    </div>
+</div>
+{% endblock 'content' %}
